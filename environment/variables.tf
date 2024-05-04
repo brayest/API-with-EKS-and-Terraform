@@ -136,19 +136,3 @@ variable "rds_deletion_protection" {
   type = bool
   default = false
 }
-
-
-
-#Utility 
-variable "utility_region" {
-  type    = string
-  default = "us-east-1"  
-}
-variable "utility_aws_profile" {
-  type = string
-  default = "monigle"
-}
-variable "utility_account" {
-  type = string
-  default = "126889857648"
-}

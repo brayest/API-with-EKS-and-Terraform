@@ -14,11 +14,6 @@ data "aws_route53_zone" "public_domain_hosted_zone" {
 }
 
 locals {
-  # Utility 
-  utility_region   = var.utility_region
-  utility_bucket = "beam3-core-utility-terraform-state-us-east-1-864773390124"
-  utility_aws_profile = var.utility_aws_profile
-
   cloud_account_id = data.aws_caller_identity.current.account_id
   region           = data.aws_region.current.name
   project          = var.project

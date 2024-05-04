@@ -38,12 +38,6 @@ provider "aws" {
   region = var.region
 }
 
-provider "aws" {
-  alias = "utility"
-  region = var.utility_region
-  profile = local.utility_aws_profile
-}
-
 data "aws_eks_cluster" "cluster" {
   name = module.eks.cluster_id
 }

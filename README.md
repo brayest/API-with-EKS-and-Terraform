@@ -1,6 +1,39 @@
-## Requirements
+### Infrastructure Requirements
+1. **AWS Account**: An active AWS account is needed to provision resources like EKS (Elastic Kubernetes Service), storage, etc.
+2. **Terraform**: Install Terraform to define and deploy the infrastructure as code.
+3. **kubectl**: Required for interacting with the Kubernetes cluster once it's deployed.
+4. **AWS CLI**: To configure AWS credentials locally and interact with AWS services.
 
-No requirements.
+### Software Requirements
+1. **Docker**: Necessary for building and running Docker images, including the API's Dockerfile.
+2. **Helm**: Install Helm to manage Kubernetes applications and deploy the Helm charts available in the project.
+
+### CI/CD Requirements
+1. **GitHub Actions**: For automatic deployment using the predefined workflow.
+   - Ensure that you have access to a GitHub repository and can configure the required secrets to interact with AWS and the cluster.
+
+### Project Setup Instructions
+1. **Docker Images**:
+   - Build the Docker image for the API using the provided Dockerfile:
+     ```bash
+     cd ./application/api/
+     docker build -t <ECR_URL> . 
+     ```
+   - Push the image to the ECR repository
+
+2. **Terraform Configuration**:
+   - Review and adjust the Terraform variables in `terraform.tfvars` to suit your environment in the `dev` folder.
+   - Run `terraform init` to initialize the environment, followed by `terraform apply` to create the infrastructure.
+
+4. **Database Creation**:
+    - Create an EC2 instance or a Jump host to access the internal DB
+    - Create the database called `api`
+
+3. **CI/CD Pipeline**:
+   - Ensure that the GitHub Actions pipeline is configured with appropriate AWS credentials and is triggered by a push or pull request.
+   - Adjust the `.github/workflows/workflow.yaml` file as necessary to meet your deployment needs.
+   - The Pipeline is just an example, is puposly incomplete since for it to be functional the github runners need to be authenticated 
+
 
 ## Providers
 

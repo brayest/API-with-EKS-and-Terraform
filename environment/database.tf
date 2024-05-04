@@ -81,7 +81,7 @@ module "aurora" {
 
   security_group_rules = {
     vpc_ingress = {
-      cidr_blocks = concat(local.vpc_config.vpc_private_subnet_cidr_blocks, local.vpc_config.vpc_public_subnet_cidr_blocks, [data.terraform_remote_state.beam3_utility.outputs.vpc_cidr])
+      cidr_blocks = concat(local.vpc_config.vpc_private_subnet_cidr_blocks, local.vpc_config.vpc_public_subnet_cidr_blocks)
     }
   }
 
