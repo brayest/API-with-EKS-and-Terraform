@@ -21,7 +21,7 @@ jobs:
 #   IMAGE_TAG: ${{ github.sha }}  
         run: |
           cd api/application/api
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG  .
+          docker build -t sample_api  .
 # docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
    
   # deploy:
