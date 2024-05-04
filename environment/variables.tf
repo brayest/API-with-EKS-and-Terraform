@@ -4,7 +4,7 @@ variable "region" {
 }
 variable "project" {
   type    = string
-  default = "beam4"
+  default = "brayest"
 }
 variable "utility_role_arn" {
   type = string
@@ -16,7 +16,7 @@ variable "environment" {
 }
 variable "profile" {
   type = string 
-  default = "beam4_qa"
+  default = "brayest_qa"
 }
 variable "rds_ca_cert_identifier" {
   type = string
@@ -94,7 +94,7 @@ variable "eks_admins_arns" {
 
 variable "internal_domain_name" {
   type = string
-  default = "beam4-qa.int"
+  default = "brayest-dev.int"
 }
 
 # RDS 

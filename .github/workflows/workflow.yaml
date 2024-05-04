@@ -42,7 +42,7 @@ jobs:
   #         ECR_REPOSITORY: beam3-api
   #         IMAGE_TAG: ${{ github.sha }}
   #       run: |
-  #         aws eks --region us-east-1 update-kubeconfig --name beam4-qa
+  #         aws eks --region us-east-1 update-kubeconfig --name brayest-dev
   #         helm upgrade -i -n default api application/deploy/api \
   #                                   --set image.tag=$IMAGE_TAG \
   #                                   --set image.repository=$ECR_REGISTRY/$ECR_REPOSITORY \

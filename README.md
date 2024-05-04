@@ -99,11 +99,11 @@
 | <a name="input_environment"></a> [environment](#input\_environment) | n/a | `string` | `"dev"` | no |
 | <a name="input_force_destroy"></a> [force\_destroy](#input\_force\_destroy) | A boolean that indicates all objects should be deleted from the bucket so that the bucket can be destroyed without error | `bool` | `false` | no |
 | <a name="input_ingress_replicaCount"></a> [ingress\_replicaCount](#input\_ingress\_replicaCount) | n/a | `number` | `1` | no |
-| <a name="input_internal_domain_name"></a> [internal\_domain\_name](#input\_internal\_domain\_name) | n/a | `string` | `"beam4-qa.int"` | no |
+| <a name="input_internal_domain_name"></a> [internal\_domain\_name](#input\_internal\_domain\_name) | n/a | `string` | `"brayest-dev.int"` | no |
 | <a name="input_number_subnets"></a> [number\_subnets](#input\_number\_subnets) | n/a | `number` | `3` | no |
 | <a name="input_one_nat_gateway_per_az"></a> [one\_nat\_gateway\_per\_az](#input\_one\_nat\_gateway\_per\_az) | n/a | `bool` | `false` | no |
-| <a name="input_profile"></a> [profile](#input\_profile) | n/a | `string` | `"beam4_qa"` | no |
-| <a name="input_project"></a> [project](#input\_project) | n/a | `string` | `"beam4"` | no |
+| <a name="input_profile"></a> [profile](#input\_profile) | n/a | `string` | `"brayest_qa"` | no |
+| <a name="input_project"></a> [project](#input\_project) | n/a | `string` | `"brayest"` | no |
 | <a name="input_rds_ca_cert_identifier"></a> [rds\_ca\_cert\_identifier](#input\_rds\_ca\_cert\_identifier) | n/a | `string` | `"rds-ca-rsa2048-g1"` | no |
 | <a name="input_rds_deletion_protection"></a> [rds\_deletion\_protection](#input\_rds\_deletion\_protection) | n/a | `bool` | `false` | no |
 | <a name="input_rds_engine_version"></a> [rds\_engine\_version](#input\_rds\_engine\_version) | n/a | `string` | `"15.4"` | no |

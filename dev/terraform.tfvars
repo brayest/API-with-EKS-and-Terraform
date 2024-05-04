@@ -1,13 +1,13 @@
 # General Config
 region                  = "us-east-1"
-project                 = "beam4"
-environment             = "qa"
-domain_name             = "qa.beambrandcenter.com"
-internal_domain_name    = "beam4-qa.int"
+project                 = "brayest"
+environment             = "dev"
+domain_name             = "dev.brayest.com"
+internal_domain_name    = "brayest-dev.int"
 ingress_replicaCount    = 1
 
 # AWS
-profile = "beam4-qa"
+profile = "brayest-dev"
 
 # VPC config
 vpc_cidr_block          = "10.12.0.0/16"
@@ -31,7 +31,7 @@ rds_instance_cluster_configuration = {
 cluster_version            = "1.29"
 eks_endpoint_public_access =  true
 eks_admins_arns = [
-    "arn:aws:iam::551681274431:role/aws-reserved/sso.amazonaws.com/AWSReservedSSO_AdministratorAccess_12c6794e8fe5dc17",
+    "arn:aws:iam::123456789012:user/brayest-dev-admin",
   ]
 eks_node_groups ={    
     default = {

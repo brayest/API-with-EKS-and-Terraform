@@ -19,5 +19,5 @@ variable "create_private_issuer" {
 
 variable "private_domain" {
   type = string 
-  default = "beam4-qa.int"
+  default = "brayest-dev.int"
 }

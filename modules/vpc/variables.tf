@@ -13,7 +13,7 @@ variable "aws_region" {
 variable "name" {
   description = "Name to be used on all the resources as identifier"
   type        = string
-  default     = "beam4"
+  default     = "brayest"
 }
 
 variable "cidr" {

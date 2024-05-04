@@ -7,14 +7,14 @@ settings:
   environment: qa
 
 database:
-  host: writer-db.beam4-qa.int
+  host: writer-db.brayest-dev.int
   port: 3306
   user: root
   password: password
-  database: beam4
+  database: brayest
 
 image:
-  repository: 381492187568.dkr.ecr.us-east-1.amazonaws.com/beam4-api
+  repository: 381492187568.dkr.ecr.us-east-1.amazonaws.com/brayest-api
   pullPolicy: Always
   tag: v1
 

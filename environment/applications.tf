@@ -56,7 +56,7 @@ resource "helm_release" "api" {
 
     set {
         name = "database.host"
-        value = "writer-db.beam4-qa.int"
+        value = "writer-db.brayest-dev.int"
     }
 
     set {

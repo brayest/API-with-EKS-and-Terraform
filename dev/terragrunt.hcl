@@ -11,7 +11,7 @@ generate "nginx_helmignore" {
 }
 
 locals {
-  indentifier   = "beam4-qa" 
+  indentifier   = "brayest-dev" 
   aws_region    = "us-east-1"  
 
   backend_bucket = "${local.indentifier}-terraform-state-${local.aws_region}-${get_aws_account_id()}"
