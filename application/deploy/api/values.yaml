@@ -1,0 +1,24 @@
+# Default values for PHP Service.
+replicaCount: 1
+
+settings:
+  domain: qa.beambrandcenter.com
+  region: us-east-1
+  environment: qa
+
+database:
+  host: writer-db.beam4-qa.int
+  port: 3306
+  user: root
+  password: password
+  database: beam4
+
+image:
+  repository: 381492187568.dkr.ecr.us-east-1.amazonaws.com/beam4-api
+  pullPolicy: Always
+  tag: v1
+
+service:
+  type: ClusterIP
+  port: 8000
+

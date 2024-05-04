@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "api.fullname" . }}
+  labels:
+    app: {{ include "api.fullname" .}}
+    chart: {{ include "api.fullname" . }}
+
+spec:
+  replicas: {{ .Values.replicaCount }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 50%
+  selector:
+    matchLabels:
+      app: {{ include "api.fullname" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "api.fullname" . }}
+    spec:
+      nodeSelector:
+        nodegroup-type: default    
+
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}           
+          ports:
+            - name: api
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          env:
+            - name: DB_HOST
+              value: "{{ .Values.database.host }}"     
+            - name: DB_PORT
+              value: "{{ .Values.database.port }}"     
+            - name: DB_USER
+              value: "{{ .Values.database.user }}"     
+            - name: DB_PASSWORD
+              value: "{{ .Values.database.password }}"     
+            - name: DB_DATABASE
+              value: "{{ .Values.database.database }}"     
+                
+
+
