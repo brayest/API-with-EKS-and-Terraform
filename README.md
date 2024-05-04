@@ -1,6 +1,164 @@
-## Requirements
+# Project: AWS EKS Deployment with Terraform and Helm
 
-No requirements.
+## Overview
+
+This project demonstrates the deployment of a sample API with multiple replicas and its database using persistent storage on AWS EKS. The objective is to ensure the API is accessible externally while keeping the database private. The deployment leverages Helm for application management and Terraform for infrastructure provisioning.
+
+## User Story
+
+We need to deploy an API application and its associated database on AWS, ensuring scalability, security, and best practices. The deployment should allow external access to the API while safeguarding the database. Infrastructure as Code (IaC) should be used to automate and streamline the process.
+
+### Implementation
+
+- **Scalability:** 
+  - **EKS Auto-Scaling:** The cluster is configured with a cluster autoscaler that automatically adjusts the size of the Kubernetes cluster. This ensures that there are enough nodes to handle varying loads while optimizing resource usage.
+  - **Load Balancer:** A managed load balancer is configured to distribute traffic evenly across API replicas, preventing overloads and providing high availability.
+
+- **Security:**
+  - **Network Policies:** Network policies restrict traffic flow within the cluster, ensuring that only the API can communicate with the database, preventing unauthorized access.
+  - **IAM Roles:** AWS IAM roles with fine-grained permissions ensure that the API and database have the minimum necessary permissions to function.
+  - **Secrets Management:** Sensitive information such as database credentials is securely stored and accessed using Kubernetes Secrets.
+  
+- **Best Practices:**
+  - **Infrastructure as Code:** All infrastructure is defined using Terraform, allowing consistent, reproducible, and version-controlled provisioning.
+  - **Helm Charts:** Helm charts facilitate easy deployment and management of applications, enabling consistent and modular deployments.
+  - **CI/CD Pipeline:** Automated CI/CD pipelines using GitHub Actions ensure rapid, reliable, and consistent deployment.
+
+### External Access and Database Safeguarding
+
+- **Ingress Controller and Cert-Manager:**
+  - **Ingress Controller:** An NGINX ingress controller is used to handle external traffic, providing a single entry point for the API. This ensures all requests are routed securely and efficiently.
+  - **Cert-Manager:** Cert-Manager automates the management and issuance of SSL/TLS certificates. It integrates with the ingress controller to provide secure HTTPS traffic to the API with Lets Encrypt.
+  
+- **Database Safeguarding:**
+  - **Database Subnet:** The database is placed in a dataabase subnet, making it inaccessible from the public internet. This ensures that it can only be accessed by authorized components within the VPC.
+  - **Security Groups:** Strict security groups are applied to allow communication only between the API and the database, effectively isolating the database from unwanted access.
+
+Overall, the design ensures that the API remains scalable and accessible while protecting the database, following modern best practices in cloud architecture.
+
+
+## Design Choices
+
+### Infrastructure Setup
+1. **AWS EKS (Elastic Kubernetes Service):** Chosen for its scalability, managed nature, and deep integration with AWS services.
+2. **VPC (Virtual Private Cloud):** A custom VPC was created to control network traffic.
+3. **Subnets:** Public subnets for API exposure and private subnets for database security.
+4. **Security Groups:** Configured to ensure API exposure while restricting database access.
+5. **IAM Roles:** To manage permissions securely.
+
+### Application Deployment
+1. **Helm Charts:** 
+   - **nginx-ingress:** For traffic routing and load balancing.
+   - **Cluster Autoscaler:** To handle dynamic scaling of the cluster.
+
+2. **Docker:** Dockerfiles define the images to be used for the API.
+
+### CI/CD Pipeline
+- **GitHub Actions:** Automate deployments on code changes, leveraging Terraform and Helm.
+- **IMPORTANT:** Not working fully, intentional just provided an example. 
+  
+### Best Practices
+1. **Infrastructure as Code:** Terraform was used for infrastructure provisioning, ensuring reproducibility and modularity.
+2. **Version Control:** A git-based repository for storing Terraform and Helm files ensures collaborative development.
+3. **Security:** Strict IAM roles and security group rules safeguard the application.
+
+## Conclusion
+This project showcases best practices in deploying a scalable, secure, and efficient infrastructure on AWS using Terraform and Helm. The emphasis on infrastructure as code and modern application management tools ensures the setup is robust, flexible, and easily manageable.
+
+
+### Infrastructure Requirements
+1. **AWS Account**: An active AWS account is needed to provision resources like EKS (Elastic Kubernetes Service), storage, etc.
+2. **Terraform**: Install Terraform to define and deploy the infrastructure as code.
+3. **kubectl**: Required for interacting with the Kubernetes cluster once it's deployed.
+4. **AWS CLI**: To configure AWS credentials locally and interact with AWS services.
+
+### Software Requirements
+1. **Docker**: Necessary for building and running Docker images, including the API's Dockerfile.
+2. **Helm**: Install Helm to manage Kubernetes applications and deploy the Helm charts available in the project.
+
+### CI/CD Requirements
+1. **GitHub Actions**: For automatic deployment using the predefined workflow.
+   - Ensure that you have access to a GitHub repository and can configure the required secrets to interact with AWS and the cluster.
+
+### Project Setup Instructions
+1. **Docker Images**:
+   - Build the Docker image for the API using the provided Dockerfile:
+     ```bash
+     cd ./application/api/
+     docker build -t <ECR_URL> . 
+     ```
+   - Push the image to the ECR repository
+
+2. **Terraform Configuration**:
+   - Review and adjust the Terraform variables in `terraform.tfvars` to suit your environment in the `dev` folder.
+   - Run `terraform init` to initialize the environment, followed by `terraform apply` to create the infrastructure.
+
+4. **Database Creation**:
+    - Create an EC2 instance or a Jump host to access the internal DB
+    - Create the database called `api`
+
+3. **CI/CD Pipeline**:
+   - Ensure that the GitHub Actions pipeline is configured with appropriate AWS credentials and is triggered by a push or pull request.
+   - Adjust the `.github/workflows/workflow.yaml` file as necessary to meet your deployment needs.
+   - The Pipeline is just an example, is puposly incomplete since for it to be functional the github runners need to be authenticated 
+
+## Test Procedure
+
+### 1. **Health Check**
+   - **Objective:** Ensure the application is reachable.
+   - **Command:**
+     ```bash
+     curl -I https://api.qa.beambrandcenter.com/docs
+     ```
+   - **Expected Result:** HTTP status code `200 OK`.
+
+### 2. **Create a Task**
+   - **Objective:** Verify that new tasks can be created.
+   - **Command:**
+     ```bash
+     curl -X POST https://api.qa.beambrandcenter.com/tasks \
+     -H "Content-Type: application/json" \
+     -d '{"title": "Test Task", "description": "A task for testing", "completed": false}'
+     ```
+   - **Expected Result:** The response should contain the created task details, including an `id`.
+
+### 3. **Retrieve All Tasks**
+   - **Objective:** Ensure all tasks can be retrieved.
+   - **Command:**
+     ```bash
+     curl https://api.qa.beambrandcenter.com/tasks
+     ```
+   - **Expected Result:** The response should contain a list of tasks, including the one created in the previous test.
+
+### 4. **Retrieve a Single Task**
+   - **Objective:** Verify individual tasks can be retrieved by `id`.
+   - **Command:**
+     ```bash
+     curl https://api.qa.beambrandcenter.com/tasks/{task_id}
+     ```
+   - **Expected Result:** The response should contain the details of the specified task.
+
+### 5. **Update a Task**
+   - **Objective:** Ensure tasks can be updated.
+   - **Command:**
+     ```bash
+     curl -X PUT https://api.qa.beambrandcenter.com/tasks/{task_id} \
+     -H "Content-Type: application/json" \
+     -d '{"title": "Updated Task", "description": "Updated description", "completed": true}'
+     ```
+   - **Expected Result:** The response should reflect the updated task details.
+
+### 6. **Delete a Task**
+   - **Objective:** Verify tasks can be deleted.
+   - **Command:**
+     ```bash
+     curl -X DELETE https://api.qa.beambrandcenter.com/tasks/{task_id}
+     ```
+   - **Expected Result:** HTTP status code `204 No Content`.
+
+**Note:** Replace `{task_id}` in the URLs with the actual task ID, and modify the commands to reflect your environment and requirements.
+
+
 
 ## Providers
 
@@ -66,11 +224,11 @@ No requirements.
 | <a name="input_environment"></a> [environment](#input\_environment) | n/a | `string` | `"dev"` | no |
 | <a name="input_force_destroy"></a> [force\_destroy](#input\_force\_destroy) | A boolean that indicates all objects should be deleted from the bucket so that the bucket can be destroyed without error | `bool` | `false` | no |
 | <a name="input_ingress_replicaCount"></a> [ingress\_replicaCount](#input\_ingress\_replicaCount) | n/a | `number` | `1` | no |
-| <a name="input_internal_domain_name"></a> [internal\_domain\_name](#input\_internal\_domain\_name) | n/a | `string` | `"beam4-qa.int"` | no |
+| <a name="input_internal_domain_name"></a> [internal\_domain\_name](#input\_internal\_domain\_name) | n/a | `string` | `"brayest-dev.int"` | no |
 | <a name="input_number_subnets"></a> [number\_subnets](#input\_number\_subnets) | n/a | `number` | `3` | no |
 | <a name="input_one_nat_gateway_per_az"></a> [one\_nat\_gateway\_per\_az](#input\_one\_nat\_gateway\_per\_az) | n/a | `bool` | `false` | no |
-| <a name="input_profile"></a> [profile](#input\_profile) | n/a | `string` | `"beam4_qa"` | no |
-| <a name="input_project"></a> [project](#input\_project) | n/a | `string` | `"beam4"` | no |
+| <a name="input_profile"></a> [profile](#input\_profile) | n/a | `string` | `"brayest_qa"` | no |
+| <a name="input_project"></a> [project](#input\_project) | n/a | `string` | `"brayest"` | no |
 | <a name="input_rds_ca_cert_identifier"></a> [rds\_ca\_cert\_identifier](#input\_rds\_ca\_cert\_identifier) | n/a | `string` | `"rds-ca-rsa2048-g1"` | no |
 | <a name="input_rds_deletion_protection"></a> [rds\_deletion\_protection](#input\_rds\_deletion\_protection) | n/a | `bool` | `false` | no |
 | <a name="input_rds_engine_version"></a> [rds\_engine\_version](#input\_rds\_engine\_version) | n/a | `string` | `"15.4"` | no |
