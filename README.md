@@ -108,7 +108,7 @@ This project showcases best practices in deploying a scalable, secure, and effic
    - **Objective:** Ensure the application is reachable.
    - **Command:**
      ```bash
-     curl -I https://api.qa.beambrandcenter.com/docs
+     curl -I https://api.brayest.com/docs
      ```
    - **Expected Result:** HTTP status code `200 OK`.
 
@@ -116,7 +116,7 @@ This project showcases best practices in deploying a scalable, secure, and effic
    - **Objective:** Verify that new tasks can be created.
    - **Command:**
      ```bash
-     curl -X POST https://api.qa.beambrandcenter.com/tasks \
+     curl -X POST https://api.brayest.com/tasks \
      -H "Content-Type: application/json" \
      -d '{"title": "Test Task", "description": "A task for testing", "completed": false}'
      ```
@@ -126,7 +126,7 @@ This project showcases best practices in deploying a scalable, secure, and effic
    - **Objective:** Ensure all tasks can be retrieved.
    - **Command:**
      ```bash
-     curl https://api.qa.beambrandcenter.com/tasks
+     curl https://api.brayest.com/tasks
      ```
    - **Expected Result:** The response should contain a list of tasks, including the one created in the previous test.
 
@@ -134,7 +134,7 @@ This project showcases best practices in deploying a scalable, secure, and effic
    - **Objective:** Verify individual tasks can be retrieved by `id`.
    - **Command:**
      ```bash
-     curl https://api.qa.beambrandcenter.com/tasks/{task_id}
+     curl https://api.brayest.com/tasks/{task_id}
      ```
    - **Expected Result:** The response should contain the details of the specified task.
 
@@ -142,7 +142,7 @@ This project showcases best practices in deploying a scalable, secure, and effic
    - **Objective:** Ensure tasks can be updated.
    - **Command:**
      ```bash
-     curl -X PUT https://api.qa.beambrandcenter.com/tasks/{task_id} \
+     curl -X PUT https://api.brayest.com/tasks/{task_id} \
      -H "Content-Type: application/json" \
      -d '{"title": "Updated Task", "description": "Updated description", "completed": true}'
      ```
@@ -152,7 +152,7 @@ This project showcases best practices in deploying a scalable, secure, and effic
    - **Objective:** Verify tasks can be deleted.
    - **Command:**
      ```bash
-     curl -X DELETE https://api.qa.beambrandcenter.com/tasks/{task_id}
+     curl -X DELETE https://api.brayest.com/tasks/{task_id}
      ```
    - **Expected Result:** HTTP status code `204 No Content`.
 

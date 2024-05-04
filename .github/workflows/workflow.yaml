@@ -46,7 +46,7 @@ jobs:
   #         helm upgrade -i -n default api application/deploy/api \
   #                                   --set image.tag=$IMAGE_TAG \
   #                                   --set image.repository=$ECR_REGISTRY/$ECR_REPOSITORY \
-  #                                   --set settings.domain=qa.beambrandcenter.com \
+  #                                   --set settings.domain=brayest.com \
   #                                   --set settings.environment=qa \
   #                                   --set replicaCount=3 
                               

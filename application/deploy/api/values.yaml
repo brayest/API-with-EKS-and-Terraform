@@ -2,7 +2,7 @@
 replicaCount: 1
 
 settings:
-  domain: qa.beambrandcenter.com
+  domain: brayest.com
   region: us-east-1
   environment: qa
 
