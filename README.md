@@ -31,7 +31,7 @@ We need to deploy an API application and its associated database on AWS, ensurin
   - **Cert-Manager:** Cert-Manager automates the management and issuance of SSL/TLS certificates. It integrates with the ingress controller to provide secure HTTPS traffic to the API with Lets Encrypt.
   
 - **Database Safeguarding:**
-  - **Private Subnet:** The database is placed in a private subnet, making it inaccessible from the public internet. This ensures that it can only be accessed by authorized components within the VPC.
+  - **Database Subnet:** The database is placed in a dataabase subnet, making it inaccessible from the public internet. This ensures that it can only be accessed by authorized components within the VPC.
   - **Security Groups:** Strict security groups are applied to allow communication only between the API and the database, effectively isolating the database from unwanted access.
 
 Overall, the design ensures that the API remains scalable and accessible while protecting the database, following modern best practices in cloud architecture.
@@ -101,6 +101,63 @@ This project showcases best practices in deploying a scalable, secure, and effic
    - Ensure that the GitHub Actions pipeline is configured with appropriate AWS credentials and is triggered by a push or pull request.
    - Adjust the `.github/workflows/workflow.yaml` file as necessary to meet your deployment needs.
    - The Pipeline is just an example, is puposly incomplete since for it to be functional the github runners need to be authenticated 
+
+## Test Procedure
+
+### 1. **Health Check**
+   - **Objective:** Ensure the application is reachable.
+   - **Command:**
+     ```bash
+     curl -I https://api.qa.beambrandcenter.com/docs
+     ```
+   - **Expected Result:** HTTP status code `200 OK`.
+
+### 2. **Create a Task**
+   - **Objective:** Verify that new tasks can be created.
+   - **Command:**
+     ```bash
+     curl -X POST https://api.qa.beambrandcenter.com/tasks \
+     -H "Content-Type: application/json" \
+     -d '{"title": "Test Task", "description": "A task for testing", "completed": false}'
+     ```
+   - **Expected Result:** The response should contain the created task details, including an `id`.
+
+### 3. **Retrieve All Tasks**
+   - **Objective:** Ensure all tasks can be retrieved.
+   - **Command:**
+     ```bash
+     curl https://api.qa.beambrandcenter.com/tasks
+     ```
+   - **Expected Result:** The response should contain a list of tasks, including the one created in the previous test.
+
+### 4. **Retrieve a Single Task**
+   - **Objective:** Verify individual tasks can be retrieved by `id`.
+   - **Command:**
+     ```bash
+     curl https://api.qa.beambrandcenter.com/tasks/{task_id}
+     ```
+   - **Expected Result:** The response should contain the details of the specified task.
+
+### 5. **Update a Task**
+   - **Objective:** Ensure tasks can be updated.
+   - **Command:**
+     ```bash
+     curl -X PUT https://api.qa.beambrandcenter.com/tasks/{task_id} \
+     -H "Content-Type: application/json" \
+     -d '{"title": "Updated Task", "description": "Updated description", "completed": true}'
+     ```
+   - **Expected Result:** The response should reflect the updated task details.
+
+### 6. **Delete a Task**
+   - **Objective:** Verify tasks can be deleted.
+   - **Command:**
+     ```bash
+     curl -X DELETE https://api.qa.beambrandcenter.com/tasks/{task_id}
+     ```
+   - **Expected Result:** HTTP status code `204 No Content`.
+
+**Note:** Replace `{task_id}` in the URLs with the actual task ID, and modify the commands to reflect your environment and requirements.
+
 
 
 ## Providers
