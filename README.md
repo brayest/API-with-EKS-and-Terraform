@@ -1,3 +1,71 @@
+# Project: AWS EKS Deployment with Terraform and Helm
+
+## Overview
+
+This project demonstrates the deployment of a sample API with multiple replicas and its database using persistent storage on AWS EKS. The objective is to ensure the API is accessible externally while keeping the database private. The deployment leverages Helm for application management and Terraform for infrastructure provisioning.
+
+## User Story
+
+We need to deploy an API application and its associated database on AWS, ensuring scalability, security, and best practices. The deployment should allow external access to the API while safeguarding the database. Infrastructure as Code (IaC) should be used to automate and streamline the process.
+
+### Implementation
+
+- **Scalability:** 
+  - **EKS Auto-Scaling:** The cluster is configured with a cluster autoscaler that automatically adjusts the size of the Kubernetes cluster. This ensures that there are enough nodes to handle varying loads while optimizing resource usage.
+  - **Load Balancer:** A managed load balancer is configured to distribute traffic evenly across API replicas, preventing overloads and providing high availability.
+
+- **Security:**
+  - **Network Policies:** Network policies restrict traffic flow within the cluster, ensuring that only the API can communicate with the database, preventing unauthorized access.
+  - **IAM Roles:** AWS IAM roles with fine-grained permissions ensure that the API and database have the minimum necessary permissions to function.
+  - **Secrets Management:** Sensitive information such as database credentials is securely stored and accessed using Kubernetes Secrets.
+  
+- **Best Practices:**
+  - **Infrastructure as Code:** All infrastructure is defined using Terraform, allowing consistent, reproducible, and version-controlled provisioning.
+  - **Helm Charts:** Helm charts facilitate easy deployment and management of applications, enabling consistent and modular deployments.
+  - **CI/CD Pipeline:** Automated CI/CD pipelines using GitHub Actions ensure rapid, reliable, and consistent deployment.
+
+### External Access and Database Safeguarding
+
+- **Ingress Controller and Cert-Manager:**
+  - **Ingress Controller:** An NGINX ingress controller is used to handle external traffic, providing a single entry point for the API. This ensures all requests are routed securely and efficiently.
+  - **Cert-Manager:** Cert-Manager automates the management and issuance of SSL/TLS certificates. It integrates with the ingress controller to provide secure HTTPS traffic to the API with Lets Encrypt.
+  
+- **Database Safeguarding:**
+  - **Private Subnet:** The database is placed in a private subnet, making it inaccessible from the public internet. This ensures that it can only be accessed by authorized components within the VPC.
+  - **Security Groups:** Strict security groups are applied to allow communication only between the API and the database, effectively isolating the database from unwanted access.
+
+Overall, the design ensures that the API remains scalable and accessible while protecting the database, following modern best practices in cloud architecture.
+
+
+## Design Choices
+
+### Infrastructure Setup
+1. **AWS EKS (Elastic Kubernetes Service):** Chosen for its scalability, managed nature, and deep integration with AWS services.
+2. **VPC (Virtual Private Cloud):** A custom VPC was created to control network traffic.
+3. **Subnets:** Public subnets for API exposure and private subnets for database security.
+4. **Security Groups:** Configured to ensure API exposure while restricting database access.
+5. **IAM Roles:** To manage permissions securely.
+
+### Application Deployment
+1. **Helm Charts:** 
+   - **nginx-ingress:** For traffic routing and load balancing.
+   - **Cluster Autoscaler:** To handle dynamic scaling of the cluster.
+
+2. **Docker:** Dockerfiles define the images to be used for the API.
+
+### CI/CD Pipeline
+- **GitHub Actions:** Automate deployments on code changes, leveraging Terraform and Helm.
+- **IMPORTANT:** Not working fully, intentional just provided an example. 
+  
+### Best Practices
+1. **Infrastructure as Code:** Terraform was used for infrastructure provisioning, ensuring reproducibility and modularity.
+2. **Version Control:** A git-based repository for storing Terraform and Helm files ensures collaborative development.
+3. **Security:** Strict IAM roles and security group rules safeguard the application.
+
+## Conclusion
+This project showcases best practices in deploying a scalable, secure, and efficient infrastructure on AWS using Terraform and Helm. The emphasis on infrastructure as code and modern application management tools ensures the setup is robust, flexible, and easily manageable.
+
+
 ### Infrastructure Requirements
 1. **AWS Account**: An active AWS account is needed to provision resources like EKS (Elastic Kubernetes Service), storage, etc.
 2. **Terraform**: Install Terraform to define and deploy the infrastructure as code.
